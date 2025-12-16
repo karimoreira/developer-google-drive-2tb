@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Google Drive 2TB Disco Local</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Google Drive 2TB no Windows para estudantes que têm o Google PRO gratuitamente (meu caso) ou pessoas que pagam o PRO sem a limitação do Drive for desktop</h1>
+    <p>Este guia ensina como montar seu Google Drive como uma pasta local no Windows (C:), com cache para performance e iniciando automaticamente com o sistema.</p>
+    
+    <div class="note">
+        Você terá uma pasta na nuvem que se comporta como um HD físico, 
+        usando o Rclone e dentro das políticas da Google. <strong>A própria Google disponibiliza as chaves de acesso via <a href="https://developers.google.com/drive/api/guides/about-sdk" target="_blank">Developers Google - Google Drive API</a>
+        para a RClone.
+    </strong>
+    
+    </div>
+
+    <h2>Curiosidade Técnica: Por que não uso o app oficial?</h2>
+    <p>
+        A Microsoft integra o <strong>OneDrive</strong> diretamente no <em>Windows Shell</em> (o núcleo da interface gráfica), permitindo que ele funcione nativamente sem configurações extras. 
+    </p>
+    <p>
+        A <strong>Google</strong> disponibiliza o <em>Google Drive for Desktop</em>, que também permite acesso local. 
+        Porém, ele consome muita memória RAM, não permite que você controle como os dados são baixados e <strong>caso queira usar a memória de forma avançada, 
+        o sistema operacional não alcança essa nuvem devido a integração com o Kernel do Windows.</strong>
+    </p>
+    
+    <div class="note">
+        <strong>Rclone:</strong> Diferente do app oficial, este método usa o <strong>WinFsp</strong> para criar um sistema de arquivos virtual que obedece aos <em>seus</em> parâmetros. É isso que nos permite definir regras agressivas de cache e manter o sistema leve, algo impossível no software padrão da Google.
+    </div>
+
+    <h2>1. Downloads Necessários</h2>
+    <p>Você precisará de duas ferramentas open source:</p>
+    <ul>
+        <li><strong>Rclone:</strong> <a href="https://rclone.org/downloads/" target="_blank">Baixe aqui</a></li>
+        <li><strong>WinFsp:</strong> <a href="https://winfsp.dev/rel/" target="_blank">Baixe aqui</a></li>
+    </ul>
+    <p><em>Extraia o Rclone para uma pasta segura (ex: <code>C:\rclone\</code>). E em seguida, instale o WinFsp.</em></p>
+
+    <h2>2. Configurando o Acesso</h2>
+    <p>Abra o terminal (CMD) na pasta do Rclone e digite:</p>
+    <pre>rclone config</pre>
+    <ol>
+        <li>Digite <code>n</code> para "New Remote"</li>
+        <li>Nomeie como <strong>gdrive</strong> (ou o nome que preferir)</li>
+        <li>Procure o número correspondente ao Google Drive na lista</li>
+        <li>Siga os passos de autenticação no navegador que abrirá</li>
+    </ol>
+   <h2>3. Script de Inicialização</h2>
+    <p>Para que o drive monte automaticamente, vamos criar um arquivo <strong>.bat</strong>.</p>
+    <p>Abra o Bloco de Notas, cole o código abaixo e salve como <code>montarDrive.bat</code>:</p>
+    <pre>
+        @echo off
+        :: Coloque aqui o caminho onde está seu rclone.exe
+        :: Exemplo: C:\rclone ou C:\Users\%USERNAME%\Documents\rclone
+        cd /d "C:\caminho\pasta\do\Rclone"
+
+        :: Cria a pasta "Nuvem" no seu usuário se ela não existir
+        if not exist "%USERPROFILE%\Nuvem" mkdir "%USERPROFILE%\Nuvem"
+
+        :: --- COMANDO DE MONTAGEM ---
+        :: gdrive: nome que você deu no 'rclone config'
+        :: %USERPROFILE%\Nuvem, onde vai aparecer a pasta (ex: C:\Users\Voce\Nuvem)
+
+        start rclone.exe mount gdrive: "%USERPROFILE%\Nuvem" ^
+        --vfs-cache-mode full ^
+        --vfs-cache-max-size 188G ^
+        --vfs-read-ahead 500M ^
+    </pre>
+    <div class="img-center">
+        <p>Exemplo do meu .bat:</p>
+        <img src="assets/montarDrive.png" alt="Exemplo do arquivo montarDrive.bat aberto no editor de código" width="700"> 
+    </div>
+    <div class="note">
+        <strong>Explicação das Flags que escolhi para desenvolver projetos de forma rápida dentro da /Nuvem:</strong><br>
+        <code>--vfs-cache-mode full</code>: Garante segurança aos dados e permite edição de arquivos<br>
+        <code>--vfs-cache-max-size 188G</code>: O espaço máximo que o cache pode ocupar no seu disco físico<br>
+        <code>--vfs-read-ahead 500M</code>: Carrega 500MB adiantado na memória<br>
+    </div>
+    <h2>4. Iniciando com o Windows</h2>
+    <p>Para não precisar clicar no .bat toda vez que ligar o PC:</p>
+    <ol>
+        <li>Pressione <code>Win + R</code> no teclado.</li>
+        <li>Digite <code>shell:startup</code> e dê Enter.</li>
+        <li>Mova o seu arquivo <code>montarDrive.bat</code> para dentro dessa pasta que abriu.</li>
+    </ol>
+    
+    <p>Na próxima reinicialização, seu Google Drive estará local, acessível como uma pasta no seu computador.</p>
+
+    <footer>
+        <p>Kari Atílio</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+body {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #f4f4f4;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 4px solid #000;
+}
+
+h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+.note {
+    background-color: #ffffcc;
+    border: 1px solid #e6e600;
+    padding: 10px;
+    font-size: 16px;
+}
+
+code {
+    background-color: #e0e0e0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+pre {
+    background-color: #222;
+    color: #0f0;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 5px;
+    border: 1px solid #555;
+    white-space: pre-wrap; 
+}
+
+a {
+    color: #0000EE;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #551A8B;
+}
+
+footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 0.8em;
+    color: #666;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+/* --- Estilos para Imagens Centralizadas e Legendas --- */
+
+.img-center {
+    text-align: center;
+    margin: 30px 0; /* Espaço acima e abaixo do bloco da imagem */
+}
+
+.img-center img {
+    max-width: 100%;    /* Não deixa a imagem estourar a largura da página */
+    height: auto;       /* Mantém a proporção correta */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra um pouco mais marcada */
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 1px solid #eee; /* Borda cinza bem clara */
+}
+
+/* Regra específica para o parágrafo (p) dentro da div .img-center */
+.img-center p {
+    font-size: 1.2em; /* AUMENTADO: De 0.8em para 1.2em (maior que o texto normal) */
+    color: #555;      /* Um cinza um pouco mais escuro para facilitar a leitura */
+    margin-top: 15px; /* Mais espaço entre a imagem e a legenda */
+    font-weight: 600; /* Opcional: Um pouco mais de negrito para destacar */
+}
