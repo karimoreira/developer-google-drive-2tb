@@ -19,7 +19,7 @@ A Google disponibiliza o *Google Drive for Desktop*, que também permite acesso 
 2. Não permite controle granular sobre o download de dados.
 3. Caso queira usar a memória de forma avançada, o kernel não alcança essa nuvem devido à falta de integração com o Windows.
 
-### 🏆 A Vantagem deste Método (Rclone + WinFsp)
+### Rclone + WinFsp
 Diferente do app oficial, este método usa o **WinFsp** para criar um sistema de arquivos virtual que obedece aos *seus* parâmetros. É isso que nos permite definir regras agressivas de cache e manter o sistema leve, algo impossível no software padrão da Google.
 
 ---
@@ -32,7 +32,6 @@ Você precisará de duas ferramentas open source:
 * **WinFsp:** [Baixe aqui](https://winfsp.dev/rel/)
 
 *Extraia o Rclone para uma pasta segura (ex: `C:\rclone\`) e instale o WinFsp.*
-
 
 ## Configurando o Acesso
 
